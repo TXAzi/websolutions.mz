@@ -94,16 +94,7 @@ function gerarCampos(tipo) {
             `;
             break;
 
-        case "Personalizado":
-            html = `
-                <div class="extra-fields">
-                    <input type="text" placeholder="Descreva sua ideia">
-                </div>
-            `;
-            break;
-
-        default:
-            html = "";
+        
     }
 
     const container = document.querySelector(".form-projeto");
