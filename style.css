@@ -1,0 +1,838 @@
+/* =========================================
+   WEBSOLUTIONS 2026 - PREMIUM DARK THEME
+   BLACK + BLUE + ORANGE + WHITE
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #070b14;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* =========================
+   VARIÁVEIS
+========================= */
+
+:root {
+    --primary: #00c6ff;      /* azul neon */
+    --secondary: #0072ff;    /* azul escuro */
+    --accent: #ff7a18;       /* laranja */
+    
+    --dark: #070b14;
+    --dark-2: #0c1224;
+
+    --glass: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.08);
+
+    --white: #ffffff;
+    --text: rgba(255,255,255,0.85);
+}
+
+/* =========================
+   HEADER (MENU PRETO)
+========================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 60px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+
+    background: #000000;
+    border-bottom: 2px solid rgba(0, 198, 255, 0.15);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 40px;
+}
+
+.logo h2 {
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+.navbar {
+    display: flex;
+    gap: 25px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: var(--accent);
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--primary);
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+/* MENU MOBILE */
+
+.menu-mobile {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+
+    background:
+        radial-gradient(circle at top, rgba(0, 198, 255, 0.25), transparent 50%),
+        radial-gradient(circle at bottom, rgba(255, 122, 24, 0.12), transparent 60%),
+        #070b14;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 18px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0, 198, 255, 0.3);
+    border-radius: 50px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+}
+
+.hero h1 span {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    margin-top: 20px;
+    color: var(--text);
+}
+
+/* BOTÕES */
+
+.hero-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+}
+
+.btn-secondary {
+    border: 1px solid var(--border);
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: var(--glass);
+}
+
+/* =========================
+   SEÇÕES
+========================= */
+
+section {
+    padding: 100px 60px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title span {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.section-title h2 {
+    font-size: 36px;
+    margin-top: 10px;
+}
+
+/* =========================
+   SOBRE
+========================= */
+
+.sobre-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.sobre-text {
+    flex: 1;
+    min-width: 280px;
+    color: var(--text);
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 150px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0, 198, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* =========================
+   SERVIÇOS
+========================= */
+
+.servicos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.service-card {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0, 198, 255, 0.12);
+    padding: 25px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.service-card i {
+    font-size: 30px;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 35px rgba(255, 122, 24, 0.15);
+}
+
+/* =========================
+   PORTFÓLIO
+========================= */
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.portfolio-card {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.portfolio-card:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   PROJETOS
+========================= */
+
+.projetos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.projeto-card {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.projeto-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+
+.projeto-card.active {
+    border: 2px solid var(--accent);
+    background: rgba(255, 122, 24, 0.08);
+    transform: scale(1.05);
+}
+
+/* FORM */
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* =========================
+   CONTACTO
+========================= */
+
+.social-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.social-card {
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.social-card i {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.social-card:hover {
+    transform: translateY(-5px);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 50px;
+    border-top: 1px solid var(--border);
+    background: #000;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 768px) {
+
+    .header {
+        padding: 15px 20px;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .menu-mobile {
+        display: block;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    section {
+        padding: 80px 20px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+}
+
+/* MENU MOBILE ACTIVE */
+
+.navbar.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #000;
+    padding: 20px;
+    border: 1px solid rgba(0, 198, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* =========================
+   FORMULÁRIO PROFISSIONAL
+========================= */
+
+.form-projeto {
+    margin-top: 40px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-projeto input,
+.form-projeto select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+}
+
+/* =========================================
+   WEBSOLUTIONS - VIDEO SECTION
+   STYLE NETFLIX / YOUTUBE
+========================================= */
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    align-items: start;
+}
+
+/* =========================
+   CARD DO VÍDEO
+========================= */
+
+.video-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+/* HOVER PRINCIPAL */
+.video-card:hover {
+    transform: scale(1.05);
+    border-color: #00c6ff;
+    box-shadow: 0 15px 35px rgba(0, 198, 255, 0.2);
+}
+
+/* =========================
+   VÍDEO
+========================= */
+
+.video-card video {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.video-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.1)
+    );
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.video-card:hover::before {
+    opacity: 1;
+}
+
+/* =========================
+   ÍCONE PLAY
+========================= */
+
+.video-card::after {
+    content: "▶";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.85);
+    z-index: 3;
+    opacity: 0;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.video-card:hover::after {
+    opacity: 1;
+}
+
+/* =========================
+   TÍTULO DO VÍDEO
+========================= */
+
+.video-card h3 {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 3;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+/* =========================
+   RESPONSIVO - VÍDEOS
+========================= */
+
+@media (max-width: 768px) {
+
+    .video-grid {
+        grid-template-columns: 1fr;
+        justify-items: center; /* 🔥 CENTRA OS CARDS */
+        gap: 20px;
+    }
+
+    .video-card {
+        width: 95%;        /* ocupa quase toda largura */
+        max-width: 380px;  /* evita ficar gigante */
+        margin: 0 auto;    /* garante centralização */
+    }
+
+    .video-card video {
+        height: 200px;
+    }
+}
+/* =========================
+   FOOTER WEBSOLUTIONS
+   SIMPLE & MODERNO
+========================= */
+
+footer {
+    background: #05070f;
+    color: #ffffff;
+    padding: 50px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 198, 255, 0.2);
+    font-family: 'Inter', sans-serif;
+}
+
+/* TEXTO PRINCIPAL */
+footer h2,
+footer h3 {
+    color: #00c6ff;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+footer p {
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    font-size: 14.5px;
+}
+
+/* LINHAS DE INFORMAÇÃO */
+footer .info {
+    margin: 15px 0;
+}
+
+/* DESTAQUE DE CONTACTO */
+footer .contacto {
+    color: #ff7a18;
+    font-weight: 600;
+}
+
+/* RODAPÉ FINAL */
+footer .copy {
+    margin-top: 25px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+}
+
+/* HOVER SUAVE (caso uses links depois) */
+footer a {
+    color: #00c6ff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+footer a:hover {
+    color: #ff7a18;
+}
+
+
+.sobre-extra {
+    margin-top: 50px;
+    padding: 25px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(0, 198, 255, 0.15);
+    border-radius: 15px;
+}
+
+.sobre-extra h3 {
+    margin-bottom: 15px;
+    color: var(--primary);
+    font-size: 20px;
+}
+
+.sobre-extra ul {
+    list-style: none;
+}
+
+.sobre-extra li {
+    margin: 10px 0;
+    color: rgba(255,255,255,0.85);
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.sobre-extra li:hover {
+    color: var(--accent);
+    transform: translateX(5px);
+}
+
+.justificado {
+    text-align: justify;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 15px;
+    font-size: 15.5px;
+}
+
+/* destaque automático no strong */
+.justificado strong {
+    color: var(--primary);
+}
+/* =========================
+   FOOTER MODERNO
+========================= */
+
+/* =========================
+   FOOTER WEBSOLUTIONS
+   CLEAN & MODERNO
+========================= */
+
+footer {
+    background: linear-gradient(180deg, #05070f, #070b14);
+    color: #ffffff;
+    text-align: center;
+    padding: 60px 20px 30px;
+    border-top: 1px solid rgba(0, 198, 255, 0.2);
+    font-family: 'Inter', sans-serif;
+}
+
+/* TEXTOS */
+footer p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* DESTAQUE DO COPYRIGHT */
+footer p:last-child {
+    margin-top: 20px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* LINK TERMOS */
+.footer-legal {
+    margin-top: 18px;
+}
+
+.footer-legal a {
+    display: inline-block;
+    color: #00c6ff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 6px 12px;
+    border: 1px solid rgba(0, 198, 255, 0.3);
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+/* HOVER PREMIUM */
+.footer-legal a:hover {
+    color: #ffffff;
+    background: linear-gradient(90deg, #00c6ff, #ff7a18);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 198, 255, 0.2);
+}
+/* =========================
+   MODAL TERMOS
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(6px);
+}
+
+.modal-content {
+    background: #0a0f1c;
+    margin: 10% auto;
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 198, 255, 0.25);
+    box-shadow: 0 0 25px rgba(0,198,255,0.15);
+    text-align: left;
+}
+
+.modal-content h2 {
+    color: #00c6ff;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: rgba(255,255,255,0.75);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.modal-content ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.modal-content ul li {
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.7);
+}
+
+/* BOTÃO FECHAR */
+.close {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+    color: #ff7a18;
+    transition: 0.3s;
+}
+
+.close:hover {
+    transform: scale(1.2);
+}
