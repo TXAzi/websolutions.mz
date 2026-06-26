@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSolutions | Painel Administrativo Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #070b14;
+            --bg-card: #0f172a;
+            --bg-input: #0b111e;
+            --neon-blue: #00f0ff;
+            --neon-purple: #9400d3;
+            --text-main: #ffffff;
+            --text-muted: #64748b;
+            --success: #39ff14;
+            --warning: #ffaa00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ================= TELA DE LOGIN PRIVADA ================= */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at center, #0f172a 0%, #070b14 100%);
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .login-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05);
+            text-align: center;
+        }
+
+        .login-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .login-box h2 span {
+            color: var(--neon-blue);
+        }
+
+        .login-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+        }
+
+        .error-msg {
+            color: #ff3333;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* ================= DASHBOARD LAYOUT ================= */
+        .dashboard-layout {
+            display: none; 
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dash-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            background: rgba(57, 255, 20, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            color: var(--success);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .btn-logout {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.4);
+            color: #ff5555;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #ff3333;
+            color: white;
+        }
+
+        /* Grid Superior de Métricas */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(100, 116, 139, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .metric-box i {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+        }
+
+        .metric-box h3 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-box .number {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .metric-box .sub-info {
+            font-size: 0.8rem;
+            color: var(--success);
+            margin-top: 0.5rem;
+        }
+
+        /* Secções de Gráficos e Analytics Expandidos */
+        .analytics-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .analytics-row { grid-template-columns: 1fr; }
+        }
+
+        .panel-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(100, 116, 139, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .panel-box h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        /* Simulação Gráfica Barras/Linhas */
+        .chart-mock {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 160px;
+            padding-top: 1rem;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .chart-bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .chart-bar {
+            width: 65%;
+            background: linear-gradient(0deg, var(--neon-purple), var(--neon-blue));
+            border-radius: 4px 4px 0 0;
+            transition: height 1s ease;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+        }
+
+        .chart-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Lista de Localização */
+        .geo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .geo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .geo-bar-bg {
+            background: rgba(100, 116, 139, 0.1);
+            height: 6px;
+            border-radius: 3px;
+            width: 100%;
+            margin-top: 0.3rem;
+            overflow: hidden;
+        }
+
+        .geo-bar-fill {
+            background: var(--neon-blue);
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        /* Monitor de APIs e Integrações */
+        .api-status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .api-card {
+            background: var(--bg-input);
+            border: 1px solid rgba(100, 116, 139, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .api-card span { font-weight: 600; font-size: 0.9rem; }
+
+        /* Tabela Operacional */
+        .table-header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .btn-clear-data {
+            background: transparent;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            color: var(--text-muted);
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .btn-clear-data:hover {
+            border-color: #ff3333;
+            color: #ff5555;
+        }
+
+        .leads-table-wrapper { overflow-x: auto; }
+
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .leads-table th {
+            background: rgba(7, 11, 20, 0.5);
+            color: var(--text-muted);
+            padding: 1rem;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(100, 116, 139, 0.1);
+        }
+
+        .leads-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.05);
+        }
+
+        .status-badge {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-blue);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <h2>WebSolutions <span>Admin</span></h2>
+        <p>Introduza as suas credenciais de segurança para monitorizar o ecossistema digital.</p>
+        
+        <div class="input-group">
+            <label>Utilizador Administrador</label>
+            <input type="text" id="username" placeholder="Ex: kevin" autocomplete="off">
+        </div>
+        
+        <div class="input-group">
+            <label>Palavra-passe Ultra-Secreta</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <button class="btn-login" onclick="autenticarAdmin()">ENTRAR NO PAINEL</button>
+        <div class="error-msg" id="errorMsg">⚠️ Credenciais incorretas. Acesso negado.</div>
+    </div>
+</div>
+
+<div class="dashboard-layout" id="dashboardLayout">
+    <header class="dash-header">
+        <div>
+            <h1>Painel de Monitorização Global</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Visão operacional da WebSolutions Moçambique.</p>
+        </div>
+        <div class="user-profile">
+            <div class="user-status">
+                <span class="pulse-dot"></span> Administrador Autónomo (Kevin)
+            </div>
+            <button class="btn-logout" onclick="fazerLogout()"><i class="fas fa-sign-out-alt"></i> Sair para o Site</button>
+        </div>
+    </header>
+
+    <div class="metrics-grid">
+        <div class="metric-box">
+            <i class="fas fa-users"></i>
+            <h3>Utilizadores Online Agora</h3>
+            <div class="number" id="onlineCount">12</div>
+            <div class="sub-info"><i class="fas fa-chart-line"></i> Servidores Globais Ativos</div>
+        </div>
+        
+        <div class="metric-box">
+            <i class="fas fa-eye"></i>
+            <h3>Visitas Totais (Hoje)</h3>
+            <div class="number">426</div>
+            <div class="sub-info" style="color: var(--neon-blue);">+24.1% em relação a ontem</div>
+        </div>
+
+        <div class="metric-box">
+            <i class="fas fa-paper-plane"></i>
+            <h3>Cliques no WhatsApp</h3>
+            <div class="number">28</div>
+            <div class="sub-info">Taxa de conversão em tempo real</div>
+        </div>
+
+        <div class="metric-box">
+            <i class="fas fa-shield-virus"></i>
+            <h3>Ataques Bloqueados</h3>
+            <div class="number" style="color: var(--warning);">0</div>
+            <div class="sub-info" style="color: var(--success);">Firewall Ativo (ISO Ciber)</div>
+        </div>
+    </div>
+
+    <div class="analytics-row">
+        <div class="panel-box">
+            <h2><i class="fas fa-chart-area" style="color: var(--neon-purple);"></i> Histórico Volumétrico de Acessos (Últimas 6 Horas)</h2>
+            <div class="chart-mock">
+                <div class="chart-bar-wrapper">
+                    <div class="chart-bar" style="height: 45px;"></div>
+                    <div class="chart-label">12:00</div>
+                </div>
+                <div class="chart-bar-wrapper">
+                    <div class="chart-bar" style="height: 80px;"></div>
+                    <div class="chart-label">13:00</div>
+                </div>
+                <div class="chart-bar-wrapper">
+                    <div class="chart-bar" style="height: 120px;"></div>
+                    <div class="chart-label">14:00</div>
+                </div>
+                <div class="chart-bar-wrapper">
+                    <div class="chart-bar" style="height: 95px;"></div>
+                    <div class="chart-label">15:00</div>
+                </div>
+                <div class="chart-bar-wrapper">
+                    <div class="chart-bar" style="height: 140px;"></div>
+                    <div class="chart-label">16:00</div>
+                </div>
+                <div class="chart-bar-wrapper">
+                    <div class="chart-bar" style="height: 155px;"></div>
+                    <div class="chart-label">Agora</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-box">
+            <h2><i class="fas fa-map-marked-alt" style="color: var(--neon-blue);"></i> Origem do Tráfego</h2>
+            <div class="geo-list">
+                <div>
+                    <div class="geo-item"><span>Cidade de Maputo</span><strong>62%</strong></div>
+                    <div class="geo-bar-bg"><div class="geo-bar-fill" style="width: 62%;"></div></div>
+                </div>
+                <div>
+                    <div class="geo-item"><span>Cidade da Matola</span><strong>25%</strong></div>
+                    <div class="geo-bar-bg"><div class="geo-bar-fill" style="width: 25%; background: var(--neon-purple);"></div></div>
+                </div>
+                <div>
+                    <div class="geo-item"><span>Beira / Nampula</span><strong>13%</strong></div>
+                    <div class="geo-bar-bg"><div class="geo-bar-fill" style="width: 13%; background: var(--warning);"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-box" style="margin-bottom: 2rem;">
+        <h2><i class="fas fa-wallet" style="color: var(--success);"></i> Estado dos Gateways Nacionais Integrados (APIs)</h2>
+        <div class="api-status-grid">
+            <div class="api-card">
+                <div>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Vodacom API</p>
+                    <span>M-Pesa Gateway</span>
+                </div>
+                <span style="color: var(--success); font-size: 0.8rem;"><i class="fas fa-circle"></i> Online</span>
+            </div>
+            <div class="api-card">
+                <div>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Movitel API</p>
+                    <span>e-Mola Gateway</span>
+                </div>
+                <span style="color: var(--success); font-size: 0.8rem;"><i class="fas fa-circle"></i> Online</span>
+            </div>
+            <div class="api-card">
+                <div>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Rede SIMO</p>
+                    <span>Interbancário</span>
+                </div>
+                <span style="color: var(--success); font-size: 0.8rem;"><i class="fas fa-circle"></i> Operacional</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-block panel-box">
+        <div class="table-header-actions">
+            <h2><i class="fas fa-clipboard-list" style="color: var(--neon-blue);"></i> Pedidos Capturados (Formulário Ativo)</h2>
+            <button class="btn-clear-data" onclick="limparHistorico()">Limpar Histórico</button>
+        </div>
+        <div class="leads-table-wrapper">
+            <table class="leads-table">
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Cliente</th>
+                        <th>Contacto</th>
+                        <th>Tipo de Solução</th>
+                        <th>Previsão Orçamental</th>
+                        <th>Estado de Envio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ADMIN_USER = "kevin";
+    const ADMIN_PASS = "1234";
+
+    function autenticarAdmin() {
+        const userIn = document.getElementById('username').value.trim();
+        const passIn = document.getElementById('password').value;
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (userIn === ADMIN_USER && passIn === ADMIN_PASS) {
+            document.getElementById('loginScreen').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('loginScreen').style.display = "none";
+                document.getElementById('dashboardLayout').style.display = "block";
+                carregarDadosReais();
+            }, 500);
+            simularUtilizadoresOnline();
+        } else {
+            errorMsg.style.display = "block";
+            document.getElementById('password').value = "";
+        }
+    }
+
+    function carregarDadosReais() {
+        const cliquesReais = localStorage.getItem('cliquesWhats') || 28;
+        document.querySelectorAll('.metric-box .number')[2].innerText = cliquesReais;
+
+        const tbody = document.querySelector('.leads-table tbody');
+        tbody.innerHTML = "";
+
+        const listaPedidos = JSON.parse(localStorage.getItem('pedidosWebSolutions')) || [];
+
+        if (listaPedidos.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">Nenhum pedido recebido até ao momento do site principal.</td></tr>`;
+            return;
+        }
+
+        listaPedidos.forEach(pedido => {
+            const linha = document.createElement('tr');
+            linha.innerHTML = `
+                <td>${pedido.dataHora}</td>
+                <td><strong>${pedido.cliente}</strong></td>
+                <td>${pedido.contacto}</td>
+                <td><span class="status-badge">${pedido.tipo}</span></td>
+                <td>${pedido.orcamento}</td>
+                <td style="color: var(--success);"><i class="fas fa-check-circle"></i> ${pedido.estado}</td>
+            `;
+            tbody.appendChild(linha);
+        });
+    }
+
+    // ALTERADO: Ao clicar em Sair, envia o administrador direto para a Home Page
+    function fazerLogout() {
+        window.location.href = 'index.html';
+    }
+
+    function limparHistorico() {
+        if(confirm("Tens a certeza que desejas apagar todos os registos do painel?")) {
+            localStorage.removeItem('pedidosWebSolutions');
+            localStorage.setItem('cliquesWhats', 28); // Reseta para o valor base padrão
+            carregarDadosReais();
+        }
+    }
+
+    function simularUtilizadoresOnline() {
+        const countEl = document.getElementById('onlineCount');
+        setInterval(() => {
+            let current = parseInt(countEl.innerText);
+            let mudanca = Math.floor(Math.random() * 5) - 2; 
+            let novoValor = current + mudanca;
+            if(novoValor < 5) novoValor = 8; 
+            countEl.innerText = novoValor;
+        }, 4000);
+    }
+</script>
+</body>
+</html>
