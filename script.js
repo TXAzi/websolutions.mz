@@ -1,179 +1,176 @@
-/* =========================
-   WEBSOLUTIONS - SCRIPT FINAL PROFISSIONAL
-========================= */
+// ==================== CONTROLO DO MENU RESPONSIVO (MOBILE) ====================
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.navbar a');
 
-const cards = document.querySelectorAll(".projeto-card");
-const tipoInput = document.getElementById("tipoProjeto");
-const menu = document.querySelector(".menu-mobile");
-const navbar = document.querySelector(".navbar");
+    if (hamburger && navbar) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hamburger.classList.toggle('active');
+            navbar.classList.toggle('active');
+        });
 
-/* =========================
-   SELEÇÃO DE PROJETO
-========================= */
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navbar.classList.remove('active');
+            });
+        });
 
-cards.forEach(card => {
-    card.addEventListener("click", () => {
+        document.addEventListener('click', (e) => {
+            if (!navbar.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navbar.classList.remove('active');
+            }
+        });
+    }
 
-        cards.forEach(c => c.classList.remove("active"));
-        card.classList.add("active");
+    // ==================== SELEÇÃO DINÂMICA DE PROJETOS ====================
+    const cardsProjeto = document.querySelectorAll('.projeto-premium-card-btn');
+    const inputTipoProjeto = document.getElementById('tipoProjeto');
+    const containerExtra = document.querySelector('.form-extra-premium');
 
-        const tipo = card.getAttribute("data-projeto");
-        tipoInput.value = tipo;
+    cardsProjeto.forEach(card => {
+        card.addEventListener('click', () => {
+            cardsProjeto.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
 
-        gerarCampos(tipo);
+            const tipoSelecionado = card.getAttribute('data-projeto');
+            inputTipoProjeto.value = tipoSelecionado;
+
+            gerarCamposExtras(tipoSelecionado, containerExtra);
+        });
     });
 });
 
-/* =========================
-   FORMULÁRIO INTELIGENTE
-========================= */
-
-function gerarCampos(tipo) {
-
-    let html = "";
+function gerarCamposExtras(tipo, container) {
+    container.innerHTML = ""; 
+    let htmlCampos = "";
 
     switch (tipo) {
-
         case "Website Institucional":
-            html = `
-                <div class="extra-fields">
-                    <input type="text" placeholder="Nome da empresa" required>
-                    <input type="text" placeholder="Área de atuação" required>
-                    <input type="number" placeholder="Número de páginas">
-                    <select required>
-                        <option value="">Objetivo do site</option>
-                        <option>Apresentação</option>
-                        <option>Captar clientes</option>
-                        <option>Informação</option>
+            htmlCampos = `
+                <div class="input-group full-width">
+                    <label>A sua empresa já possui identidade visual (Logótipo, Cores)?</label>
+                    <select id="extra_design">
+                        <option>Sim, já temos tudo definido</option>
+                        <option>Não, precisamos que a WebSolutions crie</option>
                     </select>
-                </div>
-            `;
+                </div>`;
             break;
-
         case "Loja Online":
-            html = `
-                <div class="extra-fields">
-                    <input type="number" placeholder="Quantidade de produtos">
-                    <input type="text" placeholder="Categoria dos produtos">
-                    <select>
-                        <option value="">Método de pagamento</option>
-                        <option>Pagamento manual</option>
-                        <option>Transferência bancária</option>
-                        <option>Pagamento online</option>
-                    </select>
+            htmlCampos = `
+                <div class="input-group">
+                    <label>Quantidade estimada de produtos</label>
+                    <input type="text" id="extra_produtos" placeholder="Ex: Até 50 produtos">
                 </div>
-            `;
+                <div class="input-group">
+                    <label>Métodos de pagamento pretendidos</label>
+                    <select id="extra_pagamento">
+                        <option>M-Pesa e e-Mola (Carteiras Móveis)</option>
+                        <option>Cartões de Crédito / SIMO</option>
+                        <option>Todos os acima integrados</option>
+                    </select>
+                </div>`;
             break;
-
         case "Sistema Académico":
-            html = `
-                <div class="extra-fields">
-                    <input type="number" placeholder="Número de alunos">
-                    <input type="text" placeholder="Módulos (Notas, Pagamentos...)">
-                    <select>
-                        <option>Escola</option>
-                        <option>Instituto</option>
-                        <option>Universidade</option>
-                    </select>
+            htmlCampos = `
+                <div class="input-group">
+                    <label>Número estimado de estudantes</label>
+                    <input type="number" id="extra_estudantes" placeholder="Ex: 500">
                 </div>
-            `;
+                <div class="input-group">
+                    <label>Funcionalidade Crítica</label>
+                    <select id="extra_academico">
+                        <option>Controlo Financeiro de Propinas</option>
+                        <option>Matrículas Online e Pautas</option>
+                        <option>Ambos os módulos integrados</option>
+                    </select>
+                </div>`;
             break;
-
         case "Sistema Empresarial":
-            html = `
-                <div class="extra-fields">
-                    <input type="text" placeholder="Nome da empresa">
-                    <input type="text" placeholder="O que quer gerir?">
-                    <select>
-                        <option>Financeiro</option>
-                        <option>RH</option>
-                        <option>Vendas</option>
-                        <option>Completo</option>
-                    </select>
-                </div>
-            `;
+        case "Aplicação Web":
+            htmlCampos = `
+                <div class="input-group full-width">
+                    <label>Qual o principal problema ou processo que o software deve automatizar?</label>
+                    <input type="text" id="extra_foco" placeholder="Ex: Gestão de stock e faturação automatizada">
+                </div>`;
             break;
-
-        
+        default:
+            htmlCampos = "";
     }
 
-    const container = document.querySelector(".form-projeto");
-    const old = document.querySelector(".extra-fields");
-
-    if (old) old.remove();
-
-    container.insertAdjacentHTML("beforeend", html);
+    container.innerHTML = htmlCampos;
+    container.style.display = htmlCampos ? "grid" : "none";
 }
 
-/* =========================
-   WHATSAPP SEND
-========================= */
-
+// ==================== DISPARO PARA O WHATSAPP E GRAVAÇÃO NO ADMIN ====================
 function enviarWhatsApp() {
+    const tipoProjeto = document.getElementById('tipoProjeto').value;
+    const nome = document.getElementById('nome').value.trim();
+    const contacto = document.getElementById('contacto_val').value.trim();
+    const orcamento = document.getElementById('orcamento').value;
+    const prazo = document.getElementById('prazo').value;
+    const descricao = document.getElementById('descricao').value.trim();
 
-    const tipo = document.getElementById("tipoProjeto").value;
-    const nome = document.getElementById("nome").value;
-    const contacto = document.getElementById("contacto").value;
-    const orcamento = document.getElementById("orcamento").value;
-    const prazo = document.getElementById("prazo").value;
-    const descricao = document.getElementById("descricao").value;
-
-    if (!tipo || !nome || !contacto) {
-        alert("Preencha Nome, Contacto e selecione o tipo de projeto!");
+    if (!tipoProjeto) {
+        alert("Por favor, selecione o tipo de solução clicando num dos ícones (Website, Loja, etc.).");
+        return;
+    }
+    if (!nome || !contacto) {
+        alert("Por favor, preencha o seu Nome e Contacto para podermos responder.");
         return;
     }
 
-    let extras = "";
+    // ===================================================
+    // GRAVAÇÃO INTERNA REAL PARA CONEXÃO COM O ADMIN.HTML
+    // ===================================================
+    const novoPedido = {
+        dataHora: new Date().toLocaleString('pt-MZ', { timeZone: 'Africa/Maputo' }).slice(0, -3),
+        cliente: nome,
+        contacto: contacto,
+        tipo: tipoProjeto,
+        orcamento: orcamento || "A analisar",
+        estado: "Encaminhado p/ WhatsApp"
+    };
 
-    document.querySelectorAll(".extra-fields input, .extra-fields select").forEach(el => {
-        if (el.value.trim() !== "") {
-            extras += `\n• ${el.placeholder || el.tagName}: ${el.value}`;
-        }
-    });
+    let listaPedidos = JSON.parse(localStorage.getItem('pedidosWebSolutions')) || [];
+    listaPedidos.unshift(novoPedido); // Insere no topo da lista
+    localStorage.setItem('pedidosWebSolutions', JSON.stringify(listaPedidos));
 
-    const numero = "258871545619";
+    // Atualiza o contador de cliques no painel
+    let cliquesWhats = parseInt(localStorage.getItem('cliquesWhats')) || 28;
+    localStorage.setItem('cliquesWhats', cliquesWhats + 1);
+    // ===================================================
 
-    const mensagem = `
-🚀 NOVO PEDIDO WEBSOLUTIONS
+    let textoMensagem = `Olá WebSolutions! Gostaria de solicitar um orçamento para engenharia de software:\n\n`;
+    textoMensagem += `⚙️ *Tipo de Projeto:* ${tipoProjeto}\n`;
+    textoMensagem += `👤 *Cliente:* ${nome}\n`;
+    textoMensagem += `📞 *Contacto:* ${contacto}\n`;
+    textoMensagem += `💰 *Orçamento Previsto:* ${orcamento || "Não informado"}\n`;
+    textoMensagem += `⏳ *Prazo:* ${prazo || "Não informado"}\n`;
+    
+    if (descricao) {
+        textoMensagem += `\n📝 *Descrição Geral:*\n${descricao}`;
+    }
 
-👤 Nome: ${nome}
-📞 Contacto: ${contacto}
+    const numeroWhats = "258871545619";
+    const urlFinal = `https://wa.me/${numeroWhats}?text=${encodeURIComponent(textoMensagem)}`;
 
-📌 Serviço: ${tipo}
-💰 Orçamento: ${orcamento || "Não definido"}
-⏱ Prazo: ${prazo || "Não definido"}
-
-🧠 Detalhes técnicos:
-${extras || "Nenhum detalhe extra"}
-
-📝 Descrição:
-${descricao || "Sem descrição"}
-
-📍 WebSolutions System
-`;
-
-    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`, "_blank");
-}
-
-/* =========================
-   MENU MOBILE
-========================= */
-
-if (menu && navbar) {
-    menu.addEventListener("click", () => {
-        navbar.classList.toggle("active");
-    });
+    window.open(urlFinal, '_blank');
 }
 
 function abrirTermos() {
-    document.getElementById("modalTermos").style.display = "block";
+    const modal = document.getElementById("modalTermos");
+    if (modal) modal.style.display = "block";
 }
 
 function fecharTermos() {
-    document.getElementById("modalTermos").style.display = "none";
+    const modal = document.getElementById("modalTermos");
+    if (modal) modal.style.display = "none";
 }
 
-// fechar ao clicar fora
 window.onclick = function(event) {
     const modal = document.getElementById("modalTermos");
     if (event.target == modal) {
